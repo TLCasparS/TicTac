@@ -13,7 +13,7 @@ const makeBoard = (function(){
     }
 
     return function() {
-        return { board };
+        return board 
     };
 })();
 
@@ -28,6 +28,36 @@ function createPlayer(name, symbol){
 
     return { name, symbol, giveScore, scored}
 }
+
+
+function gameOn(board){
+    // gucke ob noch platz im board
+    let emptyCell = 0;
+
+    for (let row of board){
+        for(let cell of row){
+            if (cell == 0){
+                emptyCell++;
+                console.log(emptyCell)
+            }
+        }
+    }
+    if (emptyCell <= 9){
+        return true
+    } else{
+        return false
+    }
+   
+
+}
+
+function showBoard(board){
+    // console log done everytime a player sets a ticker
+    console.log("The bored looks like this;")
+    console.log(board)
+
+}
+
 
 // gameloop
 // as long as noone one or lost the game is going on
@@ -50,7 +80,11 @@ function createPlayer(name, symbol){
 
 // 
 
+
+
 gameBoard = makeBoard();
+gameOn(gameBoard)
+
 p1 = createPlayer("Jean", "J")
 p2 = createPlayer("Caspar", "C")
-console.log(gameBoard, p1.name, p2.symbol)
+showBoard(gameBoard)
