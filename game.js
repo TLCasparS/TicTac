@@ -7,6 +7,7 @@ function makeBoard(){
 
 
     let board = []
+    let score = 0;
 
     for (let  i = 0; i<3; i++){
         let row = [];
@@ -15,13 +16,20 @@ function makeBoard(){
         }
         board.push(row);
     }
+
+ 
     
     return { board }
 
 }
 
 function createPlayer(name){
-    return { name}
+    let score = 0;
+
+    const giveScore = () => score;
+    const scored = () => score++;
+
+    return { name, giveScore, scored}
 }
 
 gameBoard = makeBoard();
