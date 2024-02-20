@@ -1,27 +1,23 @@
 alert("tic tac toe")
 
 
+const makeBoard = (function(){
+    let board = [];
 
-
-function makeBoard(){
-
-
-    let board = []
-    let score = 0;
-
-    for (let  i = 0; i<3; i++){
+    for (let i = 0; i < 3; i++) {
         let row = [];
-        for( let  j = 0; j<3; j++){
+        for (let j = 0; j < 3; j++) {
             row.push(0);
         }
         board.push(row);
     }
 
- 
-    
-    return { board }
+    return function() {
+        return { board };
+    };
+})();
 
-}
+
 
 function createPlayer(name){
     let score = 0;
