@@ -17,43 +17,42 @@ const makeBoard = (function(){
     };
 })();
 
-function displayBoard(board){
-    //function to create the board each turn with updatet cells
-    var frame = document.createElement("div")
-    var row0 = document.createElement("div")
-    var row1 = document.createElement("div")
-    var row2 = document.createElement("div")
+function displayBoard(board) {
+    // Create the frame div to hold the rows
+    var frame = document.createElement("div");
 
-    //board muss zuerst updated werden, danach die neuen knöpfe dargestellt
+    // Iterate through the rows of the board
+    for (let i = 0; i < 3; i++) {
+        // Create a new div for each row
+        var row = document.createElement("div");
+       
 
-    for (let i= 0; i<3; i++){
-        var btn = createButton(0,i,board[0][i])
-        row0.appendChild(btn)
+        // Iterate through the columns of the board
+        for (let j = 0; j < 3; j++) {
+            // Create a button for each cell in the row
+            var btn = createButton(i, j, board[i][j]);
+           
+            row.appendChild(btn); // Append the button to the row
+        }
+
+        // Append the row to the frame
+        frame.appendChild(row);
     }
-    frame.appendChild(row0)
 
-    for (let i= 0; i<3; i++){
-        var btn = createButton(0,i,board[1][i])
-        row1.appendChild(btn)
-    }
-    frame.appendChild(row1)
-
-    for (let i= 0; i<3; i++){
-        var btn = createButton(0,i,board[2][i])
-        row2.appendChild(btn)
-    }
-    frame.appendChild(row0)
-
-
-    
-    
-
-
+    // Append the frame to the body or any desired container
+    document.body.appendChild(frame);
 }
+
+    
+    
+
+
+
 
 function createButton(col,row,symbol){
     // Create a new button element
     var button = document.createElement("button");
+    var bdiv = document.createElement("div")
 
     // Set attributes for the button (optional)
     button.setAttribute("type", "button");
@@ -61,13 +60,17 @@ function createButton(col,row,symbol){
 
     // Add event listener to handle button click
     button.addEventListener("click", function(event) {
-        setTicker(event.target, 0, 0)
+        setTicker(event, col, row)
+      // method to 
         // Your code to handle button click goes here
+
+   
        
 });
 
-// Append the button to the body of the HTML document
-document.body.appendChild(button);
+return button
+
+
 }
 
 
@@ -157,16 +160,18 @@ function checkWinner(board){
 //methode schreiben die position im Array übermiitelt bekommt 
 //je nach dem welcher knopf geklickt wird desto anders der Parameter
 
+
 function setTicker(event, col, row){
-    gameBoard[col][row] = "X"
+    gameBoard[col][row] = currentPlayer
      // Access the clicked button element
      var button = event.target;
     
      // Update the text of the clicked button to "X"
-     button.innerText = "X";
+     button.innerText = currentPlayer;
     // who is the symbol of the player
     //place is gameBoard Array
 }
+
 
 // gameloop
 // as long as noone one or lost the game is going on
@@ -193,39 +198,58 @@ function setTicker(event, col, row){
 
 gameBoard = makeBoard();
 
-
-p1 = createPlayer("Jean", "J")
-p2 = createPlayer("Caspar", "C")
+let p1Name = prompt("Choose player 1 Name")
+let p2Name = prompt("Choose player 2 Name")
+p1 = createPlayer("p1Name", "X")
+p2 = createPlayer("p2Name", "O")
 
 let inGame =gameOn(gameBoard)
 
-while(inGame){
-    showBoard(gameBoard)
-    if(!gameOn(gameBoard)){
-        break
-    }
-    console.log("It's "+ p1.name+"'s turn")
-    let p1Row = prompt("pick a row to place your tick Row 1 to Row 3") -1
-    let p1Col = prompt("pick a row to place your tick Column 1 to Column 3") -1
-    gameBoard[p1Row][p1Col] = p1.symbol
 
-    showBoard(gameBoard)
-    console.log(checkWinner(gameBoard))
-    if(!checkWinner(gameBoard)){
-        break
-    }
 
-    if(!gameOn(gameBoard)){
-        break
-    }
+currentPlayer = p1.symbol
+   
 
-    console.log("It's "+ p2.name+"'s turn")
-    let p2Row = prompt("pick a row to place your tick Row 1 to Row 3") -1
-    let p2Col = prompt("pick a row to place your tick Column 1 to Column 3") -1
-    gameBoard[p2Row][p2Col] = p2.symbol
-    
-    console.log(checkWinner(gameBoard))
-    inGame = checkWinner(gameBoard)
+displayBoard(gameBoard)
+ 
+checkWinner(gameBoard)
+ 
+
+
+
+
+
+
+
+ 
+/* while(inGame){
+showBoard(gameBoard)
+if(!gameOn(gameBoard)){
+    break
+}
+console.log("It's "+ p1.name+"'s turn")
+let p1Row = prompt("pick a row to place your tick Row 1 to Row 3") -1
+let p1Col = prompt("pick a row to place your tick Column 1 to Column 3") -1
+gameBoard[p1Row][p1Col] = p1.symbol
+
+showBoard(gameBoard)
+console.log(checkWinner(gameBoard))
+if(!checkWinner(gameBoard)){
+    break
+}
+
+if(!gameOn(gameBoard)){
+    break
+}
+
+console.log("It's "+ p2.name+"'s turn")
+let p2Row = prompt("pick a row to place your tick Row 1 to Row 3") -1
+let p2Col = prompt("pick a row to place your tick Column 1 to Column 3") -1
+gameBoard[p2Row][p2Col] = p2.symbol
+
+console.log(checkWinner(gameBoard))
+inGame = checkWinner(gameBoard)
 }
 console.log("Game over")
 console.log(checkWinner(gameBoard))
+ */
