@@ -1,4 +1,4 @@
-alert("tic tac toe")
+
 
 
 const makeBoard = (function(){
@@ -7,7 +7,7 @@ const makeBoard = (function(){
     for (let i = 0; i < 3; i++) {
         let row = [];
         for (let j = 0; j < 3; j++) {
-            row.push(0);
+            row.push(" ");
         }
         board.push(row);
     }
@@ -20,17 +20,20 @@ const makeBoard = (function(){
 function displayBoard(board) {
     // Create the frame div to hold the rows
     var frame = document.createElement("div");
+    frame.classList.add("framing")
 
     // Iterate through the rows of the board
     for (let i = 0; i < 3; i++) {
         // Create a new div for each row
         var row = document.createElement("div");
+        row.classList.add("row")
        
 
         // Iterate through the columns of the board
         for (let j = 0; j < 3; j++) {
             // Create a button for each cell in the row
             var btn = createButton(i, j, board[i][j]);
+            btn.classList.add("field")
            
             row.appendChild(btn); // Append the button to the row
         }
@@ -77,11 +80,11 @@ function createPlayer(name, symbol){
 
 function gameOn(board){
     // gucke ob noch platz im board
-    let emptyCell = 0;
+    let emptyCell = " ";
 
     for (let row of board){
         for(let cell of row){
-            if (cell == 0){
+            if (cell == " "){
                 emptyCell++;
                 console.log(emptyCell)
             }
@@ -109,7 +112,7 @@ function checkWinner(board){
         if(board[i][0] === board[i][1]  && 
             board[i][0] == board[i][2]){
             if(board[i][0] != 0){
-                console.log("Winner is " + board[i][0]);
+                alert("Winner is " + board[i][0]);
                 return false;
                 break;
             }
@@ -119,7 +122,7 @@ function checkWinner(board){
         if (board[0][i] === board[1][i] && 
             board[0][i] === board[2][i]) {
             if(board[0][i] != 0){
-                console.log("Winner is " + board[0][i]);
+                alert("Winner is " + board[0][i]);
                 return false;
                 break;
             }
@@ -132,7 +135,7 @@ function checkWinner(board){
         (board[0][2] === board[1][1] 
             && board[0][2] === board[2][0])) {
             if(board[1][1] != 0){
-                console.log("Winner is " + board[1][1]);
+                alert("Winner is " + board[1][1]);
                 return false;
                 break;
                 
@@ -154,7 +157,7 @@ function checkWinner(board){
 // finally sets the symbol on the clicked field */
 function setTicker(event, col, row){
     if (gameOn(gameBoard)) {
-        if (gameBoard[col][row] === 0) {
+        if (gameBoard[col][row] === " ") {
             gameBoard[col][row] = currentPlayer;
             event.target.innerText = currentPlayer;
 
@@ -162,13 +165,13 @@ function setTicker(event, col, row){
                 currentPlayer = currentPlayer === p1.symbol ? p2.symbol : p1.symbol;
                 console.log("It's " + (currentPlayer === p1.symbol ? p1.name : p2.name) + "'s turn");
             } else {
-                console.log("Game Over!");
+                alert("Game Over!");
             }
         } else {
             alert("Cell already occupied!");
         }
     } else {
-        console.log("Game Over!");
+        alert("Game Over!");
     }
 }
 
@@ -198,11 +201,16 @@ function setTicker(event, col, row){
 
 let gameBoard = makeBoard();
 let p1Name = prompt("Choose player 1 Name");
+
 let p2Name = prompt("Choose player 2 Name");
+document.querySelector("#p2").innerText = p2Name;
 let p1 = createPlayer(p1Name, "X");
 let p2 = createPlayer(p2Name, "O");
 let currentPlayer = p1.symbol;
 
+
+document.querySelector("#p1").innerText = p1.symbol + " - " + p1Name + ":  " ;
+document.querySelector("#p2").innerText = p2.symbol + " - " + p2Name + ":- " ;
 displayBoard(gameBoard);
 console.log("It's " + p1.name + "'s turn");
  
