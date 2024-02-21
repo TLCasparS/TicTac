@@ -17,6 +17,60 @@ const makeBoard = (function(){
     };
 })();
 
+function displayBoard(board){
+    //function to create the board each turn with updatet cells
+    var frame = document.createElement("div")
+    var row0 = document.createElement("div")
+    var row1 = document.createElement("div")
+    var row2 = document.createElement("div")
+
+    //board muss zuerst updated werden, danach die neuen knöpfe dargestellt
+
+    for (let i= 0; i<3; i++){
+        var btn = createButton(0,i,board[0][i])
+        row0.appendChild(btn)
+    }
+    frame.appendChild(row0)
+
+    for (let i= 0; i<3; i++){
+        var btn = createButton(0,i,board[1][i])
+        row1.appendChild(btn)
+    }
+    frame.appendChild(row1)
+
+    for (let i= 0; i<3; i++){
+        var btn = createButton(0,i,board[2][i])
+        row2.appendChild(btn)
+    }
+    frame.appendChild(row0)
+
+
+    
+    
+
+
+}
+
+function createButton(col,row,symbol){
+    // Create a new button element
+    var button = document.createElement("button");
+
+    // Set attributes for the button (optional)
+    button.setAttribute("type", "button");
+    button.innerText = symbol; // Set the text displayed on the button
+
+    // Add event listener to handle button click
+    button.addEventListener("click", function(event) {
+        setTicker(event.target, 0, 0)
+        // Your code to handle button click goes here
+       
+});
+
+// Append the button to the body of the HTML document
+document.body.appendChild(button);
+}
+
+
 
 
 function createPlayer(name, symbol){
@@ -98,6 +152,20 @@ function checkWinner(board){
     // No winner
     return true;
 }
+}
+
+//methode schreiben die position im Array übermiitelt bekommt 
+//je nach dem welcher knopf geklickt wird desto anders der Parameter
+
+function setTicker(event, col, row){
+    gameBoard[col][row] = "X"
+     // Access the clicked button element
+     var button = event.target;
+    
+     // Update the text of the clicked button to "X"
+     button.innerText = "X";
+    // who is the symbol of the player
+    //place is gameBoard Array
 }
 
 // gameloop
