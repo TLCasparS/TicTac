@@ -43,18 +43,11 @@ function displayBoard(board) {
     document.body.appendChild(frame);
 }
 
-    
-    
-
-
-
-
 function createButton(col,row,symbol){
     // Create a new button element
     var button = document.createElement("button");
-    var bdiv = document.createElement("div")
 
-    // Set attributes for the button (optional)
+    
     button.setAttribute("type", "button");
     button.innerText = symbol; // Set the text displayed on the button
 
@@ -64,13 +57,8 @@ function createButton(col,row,symbol){
       // method to 
         // Your code to handle button click goes here
 
-   
-       
 });
-
 return button
-
-
 }
 
 
@@ -99,11 +87,7 @@ function gameOn(board){
             }
         }
     }
-    if (emptyCell >= 1){
-        return true
-    } else{
-        return false
-    }
+    return emptyCell >= 1;
    
 
 }
@@ -122,7 +106,8 @@ function checkWinner(board){
 
     //horizontal
     for(let i = 0; i<3; i++){
-        if(board[i][0] === board[i][1]  && board[i][0] == board[i][2]){
+        if(board[i][0] === board[i][1]  && 
+            board[i][0] == board[i][2]){
             if(board[i][0] != 0){
                 console.log("Winner is " + board[i][0]);
                 return false;
@@ -131,7 +116,8 @@ function checkWinner(board){
     }
     // Vertical
     for (let i = 0; i < 3; i++) {
-        if (board[0][i] === board[1][i] && board[0][i] === board[2][i]) {
+        if (board[0][i] === board[1][i] && 
+            board[0][i] === board[2][i]) {
             if(board[0][i] != 0){
                 console.log("Winner is " + board[0][i]);
                 return false;
@@ -141,8 +127,10 @@ function checkWinner(board){
     }
 
     // Diagonal
-    if ((board[0][0] === board[1][1] && board[0][0] === board[2][2]) ||
-        (board[0][2] === board[1][1] && board[0][2] === board[2][0])) {
+    if ((board[0][0] === board[1][1] &&
+         board[0][0] === board[2][2]) ||
+        (board[0][2] === board[1][1] 
+            && board[0][2] === board[2][0])) {
             if(board[1][1] != 0){
                 console.log("Winner is " + board[1][1]);
                 return false;
@@ -160,16 +148,28 @@ function checkWinner(board){
 //methode schreiben die position im Array übermiitelt bekommt 
 //je nach dem welcher knopf geklickt wird desto anders der Parameter
 
-
+//**setTicket function implemente game mechanics
+// checks if game is still on, if it was won
+// lets currentplayer change after each turn
+// finally sets the symbol on the clicked field */
 function setTicker(event, col, row){
-    gameBoard[col][row] = currentPlayer
-     // Access the clicked button element
-     var button = event.target;
-    
-     // Update the text of the clicked button to "X"
-     button.innerText = currentPlayer;
-    // who is the symbol of the player
-    //place is gameBoard Array
+    if (gameOn(gameBoard)) {
+        if (gameBoard[col][row] === 0) {
+            gameBoard[col][row] = currentPlayer;
+            event.target.innerText = currentPlayer;
+
+            if (checkWinner(gameBoard)) {
+                currentPlayer = currentPlayer === p1.symbol ? p2.symbol : p1.symbol;
+                console.log("It's " + (currentPlayer === p1.symbol ? p1.name : p2.name) + "'s turn");
+            } else {
+                console.log("Game Over!");
+            }
+        } else {
+            alert("Cell already occupied!");
+        }
+    } else {
+        console.log("Game Over!");
+    }
 }
 
 
@@ -196,23 +196,16 @@ function setTicker(event, col, row){
 
 
 
-gameBoard = makeBoard();
+let gameBoard = makeBoard();
+let p1Name = prompt("Choose player 1 Name");
+let p2Name = prompt("Choose player 2 Name");
+let p1 = createPlayer(p1Name, "X");
+let p2 = createPlayer(p2Name, "O");
+let currentPlayer = p1.symbol;
 
-let p1Name = prompt("Choose player 1 Name")
-let p2Name = prompt("Choose player 2 Name")
-p1 = createPlayer("p1Name", "X")
-p2 = createPlayer("p2Name", "O")
-
-let inGame =gameOn(gameBoard)
-
-
-
-currentPlayer = p1.symbol
-   
-
-displayBoard(gameBoard)
+displayBoard(gameBoard);
+console.log("It's " + p1.name + "'s turn");
  
-checkWinner(gameBoard)
  
 
 
