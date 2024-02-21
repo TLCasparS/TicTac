@@ -21,6 +21,7 @@ function displayBoard(board) {
     // Create the frame div to hold the rows
     var frame = document.createElement("div");
     frame.classList.add("framing")
+    frame.setAttribute("id", "frame");
 
     // Iterate through the rows of the board
     for (let i = 0; i < 3; i++) {
@@ -44,6 +45,8 @@ function displayBoard(board) {
 
     // Append the frame to the body or any desired container
     document.body.appendChild(frame);
+
+   
 }
 
 function createButton(col,row,symbol){
@@ -147,6 +150,31 @@ function checkWinner(board){
     return true;
 }
 }
+function clear(board){
+     // Remove the existing frame element from the document
+     var existingFrame = document.querySelector("#frame");
+     if (existingFrame) {
+         existingFrame.remove();
+     }
+ 
+     // Create a new frame element to hold the cleared board
+     var frame = document.createElement("div");
+     frame.setAttribute("id", "frame");
+    for(let i = 0; i<3; i++){
+        for(let j = 0; j<3; j++){
+            board[i][j] = " "
+        }
+
+    }
+    displayBoard(board)
+}
+
+function restart(){
+    clear(gameBoard)
+    
+
+
+}
 
 //methode schreiben die position im Array übermiitelt bekommt 
 //je nach dem welcher knopf geklickt wird desto anders der Parameter
@@ -197,9 +225,6 @@ function setTicker(event, col, row){
 
 // 
 
-
-
-let gameBoard = makeBoard();
 let p1Name = prompt("Choose player 1 Name");
 
 let p2Name = prompt("Choose player 2 Name");
@@ -208,11 +233,16 @@ let p1 = createPlayer(p1Name, "X");
 let p2 = createPlayer(p2Name, "O");
 let currentPlayer = p1.symbol;
 
-
-document.querySelector("#p1").innerText = p1.symbol + " - " + p1Name + ":  " ;
-document.querySelector("#p2").innerText = p2.symbol + " - " + p2Name + ":- " ;
+document.querySelector("#p1").innerText = p1.symbol + " - " + p1Name  ;
+document.querySelector("#p2").innerText = p2.symbol + " - " + p2Name  ;
+let gameBoard = makeBoard();
 displayBoard(gameBoard);
 console.log("It's " + p1.name + "'s turn");
+
+
+
+
+
  
  
 
