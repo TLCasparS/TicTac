@@ -80,10 +80,16 @@ function createPlayer(name, symbol){
     let score = 0;
     symbol = symbol[0]
 
-    const giveScore = () => score;
-    const scored = () => score++;
+    const giveScore = function(){
+        return score
+    } 
+    const scored = function() {
+        score++
+        displayPlayer();
 
-    return { name, symbol, giveScore, scored}
+    } 
+
+    return { name, symbol,giveScore, scored}
 }
 
 
@@ -116,11 +122,20 @@ function checkWinner(board){
     // soll iterieren und schauen wo die symbole sitzen
     //gibt mehrere Gewinnmöglichkeiten
 
-    
+    let status = document.querySelector("#status")
 
     if(won){
         restart()
     }
+    let winnerName = p1.name
+    let winner = p1
+
+    if (currentPlayer === p2.symbol){
+        winnerName = p2.name
+        winner = p2
+    }
+
+
    
 
     //horizontal
@@ -128,10 +143,16 @@ function checkWinner(board){
         if(board[i][0] === board[i][1]  && 
             board[i][0] == board[i][2]){
             if(board[i][0] != 0){
-                alert("Winner is " + board[i][0]);
+                status.innerText = "Winner is " + winnerName
+                winner.scored()
+                
+
+                
+                //alert("Winner is " + board[i][0]);
                 changeWon()
                 return false;
-                break;
+                break
+               
             }
     }
     // Vertical
@@ -139,10 +160,14 @@ function checkWinner(board){
         if (board[0][i] === board[1][i] && 
             board[0][i] === board[2][i]) {
             if(board[0][i] != 0){
-                alert("Winner is " + board[0][i]);
+                status.innerText = "Winner is " + winnerName
+                winner.scored()
+                
+                //alert("Winner is " + board[0][i]);
                 changeWon()
                 return false;
-                break;
+                break
+               
             }
         }
     }
@@ -153,7 +178,10 @@ function checkWinner(board){
         (board[0][2] === board[1][1] 
             && board[0][2] === board[2][0])) {
             if(board[1][1] != 0){
-                alert("Winner is " + board[1][1]);
+                status.innerText = "Winner is " + winnerName
+                winner.scored()
+               
+               // alert("Winner is " + board[1][1]);
                 changeWon()
                 return false;
                 break;
@@ -188,6 +216,7 @@ function clear(board){
 
 function restart(){
     changeWon()
+    document.querySelector("#status").innerText = ""
     clear(gameBoard)
     
 
@@ -202,6 +231,7 @@ function restart(){
 // lets currentplayer change after each turn
 // finally sets the symbol on the clicked field */
 function setTicker(event, col, row){
+    let status = document.querySelector("#result")
     if (gameOn(gameBoard)) {
         if (gameBoard[col][row] === " ") {
             gameBoard[col][row] = currentPlayer;
@@ -209,15 +239,19 @@ function setTicker(event, col, row){
 
             if (checkWinner(gameBoard)) {
                 currentPlayer = currentPlayer === p1.symbol ? p2.symbol : p1.symbol;
-                console.log("It's " + (currentPlayer === p1.symbol ? p1.name : p2.name) + "'s turn");
+               
+                status.innerText = "It's " + (currentPlayer === p1.symbol ? p1.name : p2.name) + "'s turn"
             } else {
-                alert("Game Over!");
+                //alert("Game Over!");
+                status.innerText = "Game Over! "
             }
         } else {
-            alert("Cell already occupied!");
+            //alert("Cell already occupied!");
+            status.innerText = "Cell already occupied"
         }
     } else {
-        alert("Game Over!");
+        //alert("Game Over!");
+        status.innerText = "Game Over! "
     }
 }
 
@@ -242,6 +276,13 @@ function setTicker(event, col, row){
 // check for winners or gameboard full
 
 // 
+function displayPlayer(){
+    document.querySelector("#p1").innerText = p1.symbol + " - " + p1Name  + ": "+p1.giveScore();
+    document.querySelector("#p2").innerText = p2.symbol + " - " + p2Name  +": "+p2.giveScore();
+}
+
+let gameBoard = makeBoard();
+displayBoard(gameBoard);
 
 let p1Name = prompt("Choose player 1 Name");
 
@@ -250,12 +291,11 @@ document.querySelector("#p2").innerText = p2Name;
 let p1 = createPlayer(p1Name, "X");
 let p2 = createPlayer(p2Name, "O");
 let currentPlayer = p1.symbol;
+displayPlayer()
 
-document.querySelector("#p1").innerText = p1.symbol + " - " + p1Name  ;
-document.querySelector("#p2").innerText = p2.symbol + " - " + p2Name  ;
-let gameBoard = makeBoard();
-displayBoard(gameBoard);
-console.log("It's " + p1.name + "'s turn");
+
+
+
 
 
 
