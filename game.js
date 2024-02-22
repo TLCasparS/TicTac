@@ -67,6 +67,12 @@ function createButton(col,row,symbol){
 return button
 }
 
+var won = false;
+
+// Define a function that changes the global variable
+function changeWon() {
+    won = !won; // Changing the value of globalVariable
+}
 
 
 
@@ -105,9 +111,16 @@ function showBoard(board){
 
 }
 
+
 function checkWinner(board){
     // soll iterieren und schauen wo die symbole sitzen
     //gibt mehrere Gewinnmöglichkeiten
+
+    
+
+    if(won){
+        restart()
+    }
    
 
     //horizontal
@@ -116,6 +129,7 @@ function checkWinner(board){
             board[i][0] == board[i][2]){
             if(board[i][0] != 0){
                 alert("Winner is " + board[i][0]);
+                changeWon()
                 return false;
                 break;
             }
@@ -126,6 +140,7 @@ function checkWinner(board){
             board[0][i] === board[2][i]) {
             if(board[0][i] != 0){
                 alert("Winner is " + board[0][i]);
+                changeWon()
                 return false;
                 break;
             }
@@ -139,6 +154,7 @@ function checkWinner(board){
             && board[0][2] === board[2][0])) {
             if(board[1][1] != 0){
                 alert("Winner is " + board[1][1]);
+                changeWon()
                 return false;
                 break;
                 
@@ -147,6 +163,7 @@ function checkWinner(board){
     }
 
     // No winner
+    
     return true;
 }
 }
@@ -170,6 +187,7 @@ function clear(board){
 }
 
 function restart(){
+    changeWon()
     clear(gameBoard)
     
 
